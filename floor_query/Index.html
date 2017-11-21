@@ -1,0 +1,79 @@
+<!--在这里编写html代码-->
+<div class="panel-title">房屋层数查询</div>
+<div class="panel-body panel-border">
+  <div class="tab-pane" id="query_panel_FWCSCX">
+    <div id="attrQueryPanel_FWCSCX"></div>
+    <div id="queryResultPanel_FWCSCX"></div>
+    <div id="spatialQueryPanel_FWCSCX" class="row text-primary">
+      <div class="col-sm-3 col-xs-3"><span class="spatial-geo" data-type="point" title="点选"><i class="iconfont">&#xe610;</i></span></div>
+      <div class="col-sm-3 col-xs-3"><span class="spatial-geo" data-type="polyline" title="线选"><i class="iconfont">&#xe619;</i></span></div>
+      <div class="col-sm-3 col-xs-3"><span class="spatial-geo" data-type="rect" title="框选"><i class="iconfont">&#xe627;</i></span> </div>
+      <div class="col-sm-3 col-xs-3"><span class="spatial-geo" data-type="polygon" title="多边形选择"><i class="iconfont">&#xe62c;</i></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 图层查询默认显示 -->
+<script id="layersDefaultTpl_FWCSCX" type="x-tpl-handlebars">
+  <form id="layerForm_FWCSCX" class="form-horizontal">
+    <div id="selectLayer_FWCSCX" class="form-group">
+      <label class="col-xs-4 control-label text-right">查询图层</label>
+      <div class="col-xs-7">
+        <select id="layersSelect_FWCSCX" class="form-control input-sm search-select chosen-select">
+        {{#each layers}}
+            <option value="{{serviceId}}-{{layerIndex}}">{{layerName}}</option>
+        {{/each}}
+        </select>
+      </div>
+    </div>
+    <div id="layerCondition_FWCSCX">
+
+    </div>
+    <div class="btn-opt">
+      <a id="qSearchBtn_FWCSCX" class="btn btn-primary btn-sm" data-loading-text="查询中 ...">
+            <i class="iconfont">&#xe602;</i>查询
+        </a> &nbsp;&nbsp;
+      <a id="qResetBtn_FWCSCX" class="btn btn-default btn-sm">
+            <i class="iconfont">&#xe644;</i>重置
+        </a>
+    </div>
+  </form>
+</script>
+
+<!-- 图层查询结果反馈信息模板 -->
+<script id="layersResultTpl_FWCSCX" type="x-tpl-mustache">
+  <div class="row result-info">
+    <span class="text-primary">共 <strong>{{size}}</strong>&nbsp;条记录</span>
+    <button id="qReturnBtn_FWCSCX" class="btn btn-primary btn-xs pull-right">
+		    <i class="iconfont">&#xe643;</i>返回
+		</button> {{#exportData}}
+    <button id="qExportBtn_FWCSCX" class="btn btn-primary btn-xs pull-right" style="margin-right:5px">
+		    <i class="iconfont">&#xe617;</i>导出
+		</button> {{/exportData}}
+  </div>
+  <div id="layers_result_FWCSCX" style="padding-top:15px;"></div>
+  <div id=pageTool class="text-center"></div>
+</script>
+
+<!-- 动态条件显示模板 -->
+<script id="layersSearchTpl_FWCSCX" type="x-tpl-mustache">
+  {{#each fields}}
+  <div class="form-group t-input">
+    <label class="col-xs-4 control-label text-right">{{alias}}</label>
+    <div class="col-xs-7">
+      <input type="text" name="{{name}}" class="form-control input-sm layer-input query-val" placeholder="请输入房屋编号" value="{{defaultValue}}">
+    </div>
+  </div>
+  {{/each}}
+</script>
+
+<!--信息窗-->
+<script id="infoContentTpl_FWCSCX" type="x-tpl-mustache">
+  <div class="info-content">
+    <ul style="text-align:left;">
+      {{#data}}
+      <li title="{{value}}">{{key}}:{{value}}</li>
+      {{/data}}
+    </ul>
+  </div>
+</script>
