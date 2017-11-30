@@ -37,7 +37,6 @@ define(["dojo/_base/declare",
     onPause: function() {
       if (mapPopup.isShowing) mapPopup.closePopup();
       _map.graphics.clear();
-
     },
     onDestroy: function() {
       if (mapPopup.isShowing) mapPopup.closePopup();
@@ -59,6 +58,23 @@ define(["dojo/_base/declare",
 
   var $attrQueryPanel, $qResultPanel, $qSearchBtn, $lyrSelector;
   var _currentState = STATE_QUERY;
+
+  //测试数据
+  var items_fake = [{
+      "title": "22",
+      "subtitle": "33"
+    },
+    {
+      "title": "44",
+      "subtitle": "55"
+    },
+    {
+      "title": "66",
+      "subtitle": "77"
+    }
+  ];
+
+
 
   /**
    *  初始化图层查询界面及功能
@@ -85,22 +101,6 @@ define(["dojo/_base/declare",
 
     //查询图层
     $qSearchBtn.on('click', function() {
-      changeState(STATE_RESULT);
-
-      //测试数据
-      var items_fake = [{
-          "title": "玩具城",
-          "subtitle": "你大爷"
-        },
-        {
-          "title": "渔具城",
-          "subtitle": "你二爷"
-        },
-        {
-          "title": "家具城",
-          "subtitle": "你小爷"
-        }
-      ];
 
       renderQueryResult(items_fake);
 
@@ -151,82 +151,66 @@ define(["dojo/_base/declare",
 
 
   //渲染模板显示结果
-  function renderQueryResult(items_fake) {
 
+  function renderQueryResult(items) {
+    changeState(STATE_RESULT);
     var tpl = $("#XMDZGLResultTpl").html();
     $qResultPanel.empty();
     $qResultPanel.append(Mustache.render(tpl, {
-      result: items_fake,
-      size: items_fake.length
+      result: items,
+      size: items.length
     }));
     var listDataRenderer = new ListDataRenderer({
-      renderTo: $('#XMDZGLResult'),
+      renderTo: $('#XMDZGLResultList'),
       type: "editAndDel",
       map: map.map(),
-      renderData: items_fake
+      renderData: items
     });
     listDataRenderer.render();
-    listDataRenderer.on('edit', function(items_fake) {
-      editItem(items_fake);
+    listDataRenderer.on('edit', function(item) {
+      editItem(item);
+      // console.log(item);
       // alert("edit!");
     });
 
-    listDataRenderer.on('delete', function(items_fake) {
-      deleteItem(items_fake);
-      // alert("delete!")
+    listDataRenderer.on('delete', function() {
+      alert("delete!")
+      // deleteItem(items);
     });
 
   }
 
   // var index = parent.layer.getFrameIndex(window.name); //获取当前窗体索引
-  function editItem() {
+  function editItem(data) {
     layer.open({
       type: 2,
       title: '新增项目',
       shadeClose: true,
       shade: 0.8,
       area: ['720px', '90%'],
-      content: '/omp/static/js/map/widgets/XMDZGL/addItem.html', //iframe的url
+      content: '/omp/static/js/map/widgets/XMDZGL/addItem.html?fw_xmmc_index=' + data.title, //iframe的url
       //父传子的关键是把通信放在success后面的回调里
-      success: function(layero, index) {
-        // var items = window.parent.$("#XMDZGLSearchBtn").items_fake;
-        var items = [{
-            "title": "玩具城",
-            "subtitle": "你大爷"
-          },
-          {
-            "title": "渔具城",
-            "subtitle": "你二爷"
-          },
-          {
-            "title": "家具城",
-            "subtitle": "你小爷"
-          },
-          {
-            "title": "家具城",
-            "subtitle": "你小爷"
-          },
-          {
-            "title": "家具城",
-            "subtitle": "你小爷"
-          }
-        ];
+      success: function() {
+        // console.log(data.title);
+        // var body = layer.getChildFrame('body', index);
+        // var input_xmmc = body.contents().find('#XMXX_XMMC');
+        // input_xmmc.val(data.title);
+        // console.log(input_xmmc.val());
+        // console.log(input_xmmc);
 
-        console.log(items);
-        // console.log(layero, index);
-        var body = layer.getChildFrame('body', index);
-        var inputList = body.find('input');
-        // console.log(inputList);
-        for (var j = 0; j < inputList.length; j++) {
-          $(inputList[j]).val(items[j].title);
-        }
+      },
+      end: function(layero, index) {
+
       }
     });
   }
 
-  function deleteItem(items) {
+  function deleteItem() {
 
   }
+
+
+
 
   /***
    * 切换当前面板状态
