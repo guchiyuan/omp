@@ -52,6 +52,7 @@
   <script src="https://cdn.bootcss.com/handlebars.js/4.0.11/handlebars.min.js"></script>
   <script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
   <script src="addItem.js"></script>
 
 
@@ -141,16 +142,10 @@
 
   <!-- 发产权利人详细信息模板 -->
   <script id="panelFCQLRTpl" type="x-tpl-mustache">
-    <table class="table" id="tb_FCQLR" data-url="qlrxx.json">
-      <thead>
-        <tr>
-        <th data-field="">权利人</th>
-        <th data-field="">权利人编号</th>
-        <th data-field="">权利人证件类型</th>
-        <th data-field="">权利人证件号</th>
-        <th data-field=""></th>
-        </tr>
-      </thead>
+    <div id="toolbar">
+      <a id="addQLRXX" class="btn btn-primary btn-xs btn-add" href="javascript:addQLRXX();">添加</a>
+    </div>
+    <table class="table" id="tb_FCQLR">
     </table>
   </script>
 

@@ -9,7 +9,7 @@ $(document).ready(function() {
     url: "single_xmxx.json",
     dataType: "json",
     success: function(result) {
-      console.log(result);
+      // console.log(result);
       //用jquery获取模板
       tpl = $("#panelXMXXTpl").html();
       //预编译模板
@@ -44,27 +44,65 @@ $("#linkFCQLR").on("click", function() {
   html = template();
   $(".panel-body").html(html);
   $("#tb_FCQLR").bootstrapTable({
+    // data: ["name:王二小"],
     striped: true,
+    toolbar: "#toolbar",
     pagination: true, //启用分页
-    pageCount: 10, //每页行数
+    pageSize: 5, //每页行数
     pageIndex: 0,
-    url: 'qlrxx.json',
+    // url: 'qlrxx.json',
     columns: [{
-      field: 'name',
-      title: '权利人'
-    }, {
-      field: 'id',
-      title: '权利人编号'
-    }, {
-      field: 'type',
-      title: '权利人证件类型'
-    }, {
-      field: 'number',
-      title: '权利人证件号'
-    }]
+        field: "qlr",
+        title: "权利人"
+      }, {
+        field: "qlrbh",
+        title: "权利人编号"
+      }, {
+        field: "qlrzjlx",
+        title: "权利人证件类型"
+      }, {
+        field: "qlrzjh",
+        title: "权利人证件号"
+      },
+      {
+        field: "id",
+        title: "操作",
+        align: "center",
+        formatter: operateFormatter
+      }
+    ]
   });
   // $("#tb_FCQLR").bootstrapTable('load', qlrxx);
+
+  function operateFormatter(value, row, index) {
+    var e = '<a href="#" mce_href="#" onclick="editQLRXX(\'' + row.qlrbh + '\')">编辑</a> ';
+    var d = '<a href="#" mce_href="#" onclick="deleteQLRXX(\'' + row.qlrbh + '\')">删除</a> ';
+    return e + d;
+  }
+
+  $.ajax({
+    url: "/omp/static/js/map/widgets/XMDZGL/qlrxx.json",
+    dataType: "json",
+    success: function(data) {
+      $("#tb_FCQLR").bootstrapTable('load', data);
+    }
+  });
 });
+
+function addQLRXX() {
+  layer.msg("新增权利人");
+}
+
+function editQLRXX(index) {
+  console.log(index);
+}
+
+function deleteQLRXX(ids) {
+  $("#tb_FCQLR").bootstrapTable('remove', {
+    field: 'qlrbh',
+    values: [ids]
+  });
+}
 
 $("#linkLJZLB").on("click", function() {
   tpl = $("#panelLJZLBTpl").html();
