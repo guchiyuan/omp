@@ -118,7 +118,7 @@ define(["dojo/_base/declare",
         // dataType: 'jsonp',
         // jsonp: "callback",
         success: function(r) {
-          console.log(r);
+          // console.log(r);
           renderQueryResult(r);
           // showPageTool("pageTool", r[r.length - 1].total, data.page, data);
         },
@@ -207,7 +207,7 @@ define(["dojo/_base/declare",
 
   // var index = parent.layer.getFrameIndex(window.name); //获取当前窗体索引
   function editItem(data) {
-    console.log(data);
+    // console.log(data);
     layer.open({
       type: 2,
       title: '新增项目',
